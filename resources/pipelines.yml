@@ -1,0 +1,22 @@
+resources:
+  pipelines:
+    ecommerce_medallion_pipeline:
+      name: Ecommerce_Medallion_Pipeline
+      configuration:
+        source_path: /Volumes/ecommerce_analytics_dev/bronze_layer/landing_csvs/
+      libraries:
+        - notebook:
+            path: /Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/01_Bronze_Ingestion/bronze_job
+        - notebook:
+            path: /Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/02_Silver_Transformation/silver_cleaning
+        - notebook:
+            path: /Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/03_Gold_Aggregations/01_dim_products
+        - notebook:
+            path: /Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/03_Gold_Aggregations/02_fact_sales
+        - notebook:
+            path: /Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/03_Gold_Aggregations/04_business_kpis
+      schema: bronze_layer
+      development: true
+      photon: true
+      catalog: ecommerce_analytics_dev
+      serverless: true

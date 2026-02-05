@@ -1,0 +1,24 @@
+resources:
+  jobs:
+    E2E_Ecommerce_Analytics_Workflow:
+      name: E2E_Ecommerce_Analytics_Workflow
+      tasks:
+        - task_key: Medallion_Pipeline
+          pipeline_task:
+            pipeline_id: 72a90a53-8e66-4a11-be7a-10707242236f
+            full_refresh: false
+        - task_key: test_transformations
+          depends_on:
+            - task_key: Medallion_Pipeline
+          notebook_task:
+            notebook_path: /Workspace/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/tests/test_transformations
+            source: WORKSPACE
+        - task_key: test_data_quality
+          depends_on:
+            - task_key: test_transformations
+          notebook_task:
+            notebook_path: /Workspace/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/tests/test_data_quality
+            source: WORKSPACE
+      queue:
+        enabled: true
+      performance_target: PERFORMANCE_OPTIMIZED

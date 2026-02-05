@@ -1,47 +1,38 @@
-# This is a Databricks asset bundle definition for ecommerce_analytics.
-# See https://docs.databricks.com/dev-tools/bundles/index.html for documentation.
 bundle:
-  name: ecommerce_analytics
-  uuid: 5233c50b-ba08-443b-8f1b-52bc0b667659
+  name: ecommerce-analytics-platform
 
-include:
-  - resources/*.yml
-  - resources/*/*.yml
-
-artifacts:
-  python_artifact:
-    type: whl
-    build: uv build --wheel
-
-# Variable declarations. These variables are assigned in the dev/prod targets below.
+# Variable declarations to toggle between Dev and Prod Catalogs
 variables:
-  catalog:
-    description: The catalog to use
-  schema:
-    description: The schema to use
+  catalog_name:
+    description: "The Unity Catalog to use for data storage"
+    default: ecommerce_analytics_dev
+  schema_name:
+    description: "The target schema for DLT tables"
+    default: bronze_layer
+
+# Pull in the resource definitions
+include:
+  - resources/pipelines.yml
+  - resources/jobs.yml
 
 targets:
   dev:
-    # The default target uses 'mode: development' to create a development copy.
-    # - Deployed resources get prefixed with '[dev my_user_name]'
-    # - Any job schedules and triggers are paused by default.
-    # See also https://docs.databricks.com/dev-tools/bundles/deployment-modes.html.
     mode: development
     default: true
     workspace:
-      host: http://127.0.0.1:7073
+      host: https://adb-7405614660800717.17.azuredatabricks.net
     variables:
-      catalog: ecommerce_analytics_dev
-      schema: dev
+      catalog_name: ecommerce_analytics_dev
+      schema_name: bronze_layer
+
   prod:
     mode: production
     workspace:
-      host: http://127.0.0.1:7073
-      # We explicitly deploy to /Workspace/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com to make sure we only have a single copy.
+      host: https://adb-7405612042809530.10.azuredatabricks.net
       root_path: /Workspace/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
     variables:
-      catalog: ecommerce_analytics_dev
-      schema: prod
+      catalog_name: ecommerce_analytics_prod
+      schema_name: bronze_layer
     permissions:
       - user_name: ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com
         level: CAN_MANAGE
