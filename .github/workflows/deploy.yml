@@ -4,8 +4,8 @@ name: "Databricks Bundle Deployment"
 on:
   push:
     branches:
-      - main     # Merges to main trigger the Production deployment
-      - develop  # Pushes to develop trigger the Development deployment
+      - prod_branch     # Merges to main trigger the Production deployment
+      - dev_branch  # Pushes to develop trigger the Development deployment
   workflow_dispatch: # Allows you to manually trigger the run from the GitHub UI
 
 jobs:
