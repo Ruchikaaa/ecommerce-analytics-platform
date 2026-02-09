@@ -1,0 +1,43 @@
+name: "Databricks Bundle Deployment"
+
+# 1. Define the triggers for your specific branches
+on:
+  push:
+    branches:
+      - dev_branch   # Pushes here trigger Development
+      - prod_branch  # Pushes/Merges here trigger Production
+  workflow_dispatch: # Allows manual triggering from the GitHub UI
+
+jobs:
+  deploy:
+    name: "Deploy Bundle"
+    runs-on: ubuntu-latest
+
+    steps:
+      # 2. Prepare the environment
+      - name: "Checkout Code"
+        uses: actions/checkout@v3
+
+      - name: "Setup Databricks CLI"
+        uses: databricks/setup-cli@main
+
+      # 3. DEPLOY TO DEVELOPMENT (Uses your Personal Access Token)
+      - name: "Deploy to Development"
+        if: github.ref == 'refs/heads/dev_branch'
+        run: databricks bundle deploy -t dev
+        env:
+          DATABRICKS_HOST: ${{ secrets.DEV_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DEV_TOKEN }}
+
+      # 4. DEPLOY TO PRODUCTION (Uses Service Principal + OAuth)
+      - name: "Deploy to Production"
+        if: github.ref == 'refs/heads/prod_branch'
+        run: databricks bundle deploy -t prod
+        env:
+          DATABRICKS_HOST: ${{ secrets.PROD_HOST }}
+          DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+          # Force OAuth-M2M to prevent "multiple auth methods" errors on Azure
+          DATABRICKS_AUTH_TYPE: oauth-m2m
+          # Azure Tenant ID for authentication handshake
+          ARM_TENANT_ID: "a7a53497-fd19-44c0-b056-10791d9c4623"
