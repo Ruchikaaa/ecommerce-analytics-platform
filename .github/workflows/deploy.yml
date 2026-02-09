@@ -35,6 +35,6 @@ jobs:
         run: databricks bundle deploy -t prod
         env:
           DATABRICKS_HOST: ${{ secrets.PROD_HOST }}
-          DATABRICKS_AZURE_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
-          DATABRICKS_AZURE_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-          DATABRICKS_AZURE_TENANT_ID: "a7a53497-fd19-44c0-b056-10791d9c4623"
+          ARM_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+          ARM_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
+          ARM_TENANT_ID: "a7a53497-fd19-44c0-b056-10791d9c4623"
