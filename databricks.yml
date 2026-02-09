@@ -38,6 +38,3 @@ targets:
     variables:
       catalog_name: ecommerce_analytics_prod
       schema_name: bronze_layer
-    # permissions:
-    #   - user_name: ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com
-    #     level: CAN_MANAGE
