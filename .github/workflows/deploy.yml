@@ -1,0 +1,41 @@
+name: "Databricks Bundle Deployment"
+
+# 1. Define when the automation triggers
+on:
+  push:
+    branches:
+      - prod_branch     # Merges to main trigger the Production deployment
+      - dev_branch  # Pushes to develop trigger the Development deployment
+  workflow_dispatch: # Allows you to manually trigger the run from the GitHub UI
+
+jobs:
+  deploy:
+    name: "Deploy Bundle"
+    runs-on: ubuntu-latest
+
+    steps:
+      # 2. Pull the code from your GitHub repository onto the runner
+      - name: "Checkout Code"
+        uses: actions/checkout@v3
+
+      # 3. Install the Databricks CLI on the runner
+      - name: "Setup Databricks CLI"
+        uses: databricks/setup-cli@main
+
+      # 4. DEPLOY TO DEVELOPMENT
+      # Only runs if the push was to the 'develop' branch
+      - name: "Deploy to Development"
+        if: github.ref == 'refs/heads/develop'
+        run: databricks bundle deploy -t dev
+        env:
+          DATABRICKS_HOST: ${{ secrets.DEV_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.DEV_TOKEN }}
+
+      # 5. DEPLOY TO PRODUCTION
+      # Only runs if the push was to the 'main' branch
+      - name: "Deploy to Production"
+        if: github.ref == 'refs/heads/main'
+        run: databricks bundle deploy -t prod
+        env:
+          DATABRICKS_HOST: ${{ secrets.PROD_HOST }}
+          DATABRICKS_TOKEN: ${{ secrets.PROD_TOKEN }}
