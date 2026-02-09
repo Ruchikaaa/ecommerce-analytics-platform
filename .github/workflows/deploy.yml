@@ -25,7 +25,7 @@ jobs:
       # 4. DEPLOY TO DEVELOPMENT
       # Only runs if the push was to the 'develop' branch
       - name: "Deploy to Development"
-        if: github.ref == 'refs/heads/develop'
+        if: github.ref == 'refs/heads/dev_branch'
         run: databricks bundle deploy -t dev
         env:
           DATABRICKS_HOST: ${{ secrets.DEV_HOST }}
@@ -34,8 +34,10 @@ jobs:
       # 5. DEPLOY TO PRODUCTION
       # Only runs if the push was to the 'main' branch
       - name: "Deploy to Production"
-        if: github.ref == 'refs/heads/main'
+        if: github.ref == 'refs/heads/prod_branch'
         run: databricks bundle deploy -t prod
         env:
           DATABRICKS_HOST: ${{ secrets.PROD_HOST }}
           DATABRICKS_TOKEN: ${{ secrets.PROD_TOKEN }}
+          DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
+          DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
