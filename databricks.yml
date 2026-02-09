@@ -1,6 +1,11 @@
 bundle:
   name: ecommerce-analytics-platform
 
+# 1. Global Permissions - Add the SPN here so it always has access
+permissions:
+  - service_principal_name: b3b580fc-1cd0-4cb3-a176-4bcf4d49945e
+    level: CAN_MANAGE
+
 # Variable declarations to toggle between Dev and Prod Catalogs
 variables:
   catalog_name:
@@ -27,13 +32,9 @@ targets:
 
   prod:
     mode: production
-    auth_type: oauth-m2m
     workspace:
       host: https://adb-7405612042809530.10.azuredatabricks.net
       root_path: /Shared/.bundle/${bundle.name}/${bundle.target}
     variables:
       catalog_name: ecommerce_analytics_prod
       schema_name: bronze_layer
-    permissions:
-      - user_name: ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com
-        level: CAN_MANAGE

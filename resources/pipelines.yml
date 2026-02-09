@@ -16,7 +16,6 @@ resources:
         - notebook:
             path: /Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/03_Gold_Aggregations/04_business_kpis
       schema: bronze_layer
-      development: true
       photon: true
       catalog: ecommerce_analytics_dev
       serverless: true
