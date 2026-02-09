@@ -27,10 +27,10 @@ targets:
 
   prod:
     mode: production
-    auth_type: azure-client-secret
+    auth_type: oauth-m2m
     workspace:
       host: https://adb-7405612042809530.10.azuredatabricks.net
-      root_path: /Workspace/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/.bundle/${bundle.name}/${bundle.target}
+      root_path: /Shared/.bundle/${bundle.name}/${bundle.target}
     variables:
       catalog_name: ecommerce_analytics_prod
       schema_name: bronze_layer
