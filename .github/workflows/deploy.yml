@@ -38,6 +38,6 @@ jobs:
         run: databricks bundle deploy -t prod
         env:
           DATABRICKS_HOST: ${{ secrets.PROD_HOST }}
-          DATABRICKS_TOKEN: ${{ secrets.PROD_TOKEN }}
+          #DATABRICKS_TOKEN: ${{ secrets.PROD_TOKEN }}
           DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
           DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
