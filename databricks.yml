@@ -27,7 +27,7 @@ targets:
 
   prod:
     mode: production
-    auth_type: azure-client-secret
+    auth_type: oauth-m2m
     workspace:
       host: https://adb-7405612042809530.10.azuredatabricks.net
       root_path: /Shared/.bundle/${bundle.name}/${bundle.target}
