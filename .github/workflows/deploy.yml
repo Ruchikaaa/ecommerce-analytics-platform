@@ -37,7 +37,4 @@ jobs:
           DATABRICKS_HOST: ${{ secrets.PROD_HOST }}
           DATABRICKS_CLIENT_ID: ${{ secrets.DATABRICKS_CLIENT_ID }}
           DATABRICKS_CLIENT_SECRET: ${{ secrets.DATABRICKS_CLIENT_SECRET }}
-          # Force OAuth-M2M to prevent "multiple auth methods" errors on Azure
-          DATABRICKS_AUTH_TYPE: oauth-m2m
-          # Azure Tenant ID for authentication handshake
-          ARM_TENANT_ID: "a7a53497-fd19-44c0-b056-10791d9c4623"
+          DATABRICKS_AZURE_TENANT_ID: "a7a53497-fd19-44c0-b056-10791d9c4623"
