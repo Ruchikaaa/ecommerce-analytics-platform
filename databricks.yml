@@ -5,6 +5,8 @@ bundle:
 permissions:
   - service_principal_name: b3b580fc-1cd0-4cb3-a176-4bcf4d49945e
     level: CAN_MANAGE
+  - user_name: ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com
+    level: CAN_MANAGE
 
 # Variable declarations to toggle between Dev and Prod Catalogs
 variables:
