@@ -3,27 +3,19 @@ resources:
     ecommerce_medallion_pipeline:
       name: Ecommerce_Medallion_Pipeline
       configuration:
-        source_path: /Volumes/${var.catalog_name}/${var.schema_name}/landing_csvs/
-          #/Volumes/ecommerce_analytics_dev/bronze_layer/landing_csvs/
+        source_path: /Volumes/${var.catalog_name}/${var.schema_name}/landing_csvs/${bundle.target}/
       libraries:
         - notebook:
             path: ../src/01_Bronze_Ingestion/bronze_job.ipynb
-              #/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/01_Bronze_Ingestion/bronze_job
         - notebook:
             path: ../src/02_Silver_Transformation/silver_cleaning.ipynb
-              #/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/02_Silver_Transformation/silver_cleaning
         - notebook:
             path: ../src/03_Gold_Aggregations/01_dim_products.ipynb
-              #/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/03_Gold_Aggregations/01_dim_products
         - notebook:
             path: ../src/03_Gold_Aggregations/02_fact_sales.ipynb
-              #/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/03_Gold_Aggregations/02_fact_sales
         - notebook:
             path: ../src/03_Gold_Aggregations/04_business_kpis.ipynb
-              #/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/src/03_Gold_Aggregations/04_business_kpis
       schema: ${var.schema_name}
-        #bronze_layer
       catalog: ${var.catalog_name}
-        #ecommerce_analytics_dev
       photon: true
       serverless: true
