@@ -1,21 +1,30 @@
 resources:
   pipelines:
+    # Defining the central DLT Pipeline for the ecommerce analytics platform
     ecommerce_medallion_pipeline:
       name: Ecommerce_Medallion_Pipeline
       configuration:
+        # Using dynamic variables to define the landing zone path. 
+        # This allows the same code to point to /dev/ or /prod/ based on the environment.
         source_path: /Volumes/${var.catalog_name}/${var.schema_name}/landing_csvs/${bundle.target}/
+      
+      # Organizing the Medallion logic into modular notebooks for maintainability
       libraries:
         - notebook:
-            path: ../src/01_Bronze_Ingestion/bronze_job.ipynb
+            path: ../src/01_Bronze_Ingestion/bronze_job.ipynb       # Row ingestion logic
         - notebook:
-            path: ../src/02_Silver_Transformation/silver_cleaning.ipynb
+            path: ../src/02_Silver_Transformation/silver_cleaning.ipynb # Cleaning & Validation logic
         - notebook:
-            path: ../src/03_Gold_Aggregations/01_dim_products.ipynb
+            path: ../src/03_Gold_Aggregations/01_dim_products.ipynb   # SCD Type 2 dimension logic
         - notebook:
-            path: ../src/03_Gold_Aggregations/02_fact_sales.ipynb
+            path: ../src/03_Gold_Aggregations/02_fact_sales.ipynb     # Central fact table logic
         - notebook:
-            path: ../src/03_Gold_Aggregations/04_business_kpis.ipynb
+            path: ../src/03_Gold_Aggregations/04_business_kpis.ipynb   # Final aggregation logic
+      
+      # Target metadata locations (Dynamic variables for environment isolation)
       schema: ${var.schema_name}
       catalog: ${var.catalog_name}
-      photon: true
-      serverless: true
+      
+      # Performance & Management settings
+      photon: true      # Enables high-performance vectorized execution engine
+      serverless: true  # Offloads cluster management to Databricks for operational efficiency
