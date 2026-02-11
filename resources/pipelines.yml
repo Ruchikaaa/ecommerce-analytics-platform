@@ -3,6 +3,7 @@ resources:
     # Defining the central DLT Pipeline for the ecommerce analytics platform
     ecommerce_medallion_pipeline:
       name: Ecommerce_Medallion_Pipeline
+      allow_duplicate_names: true
       configuration:
         # Using dynamic variables to define the landing zone path. 
         # This allows the same code to point to /dev/ or /prod/ based on the environment.
