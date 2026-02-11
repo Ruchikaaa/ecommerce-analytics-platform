@@ -1,24 +1,35 @@
 resources:
   jobs:
+    # Defining the top-level Job: The orchestrator for the entire data lifecycle
     E2E_Ecommerce_Analytics_Workflow:
       name: E2E_Ecommerce_Analytics_Workflow
       tasks:
+        # Task 1: The Core Medallion Pipeline
         - task_key: Medallion_Pipeline
           pipeline_task:
+            # References your specific DLT Pipeline ID for the 110M row ingestion
             pipeline_id: 72a90a53-8e66-4a11-be7a-10707242236f
+            # incremental processing: 'false' ensures we process new data without a full wipe
             full_refresh: false
+
+        # Task 2: Unit Testing for Logic (Runs only if Ingestion succeeds)
         - task_key: test_transformations
           depends_on:
             - task_key: Medallion_Pipeline
           notebook_task:
-            notebook_path: /Workspace/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/tests/test_transformations
+            notebook_path: /Workspace/.../tests/test_transformations
             source: WORKSPACE
+
+        # Task 3: Data Quality & Integrity Validation (Final Safety Gate)
         - task_key: test_data_quality
           depends_on:
             - task_key: test_transformations
           notebook_task:
-            notebook_path: /Workspace/Users/ruchikamhetre25_gmail.com#ext#@ruchikamhetre25gmail.onmicrosoft.com/ecommerce-analytics-platform/tests/test_data_quality
+            notebook_path: /Workspace/.../tests/test_data_quality
             source: WORKSPACE
+
+      # Enabling Queueing to manage resource availability efficiently
       queue:
         enabled: true
+      # Performance Tuning: Prioritizing cluster throughput for 110M records
       performance_target: PERFORMANCE_OPTIMIZED

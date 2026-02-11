@@ -1,7 +1,7 @@
 bundle:
   name: ecommerce-analytics-platform
 
-# 1. Global Permissions - Add the SPN here so it always has access
+# 1. Global Permissions
 permissions:
   - service_principal_name: b3b580fc-1cd0-4cb3-a176-4bcf4d49945e
     level: CAN_MANAGE
@@ -34,6 +34,8 @@ targets:
 
   prod:
     mode: production
+    run_as:
+      service_principal_name: "b3b580fc-1cd0-4cb3-a176-4bcf4d49945e"
     workspace:
       host: https://adb-7405612042809530.10.azuredatabricks.net
       root_path: /Shared/.bundle/${bundle.name}/${bundle.target}
