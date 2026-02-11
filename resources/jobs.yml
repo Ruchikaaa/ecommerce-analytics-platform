@@ -6,7 +6,7 @@ resources:
         - task_key: Medallion_Pipeline
           pipeline_task:
             # RESTORED: Using the original ID the workspace expects
-            pipeline_id: 9f24bc6e-e98c-47e5-ae49-9035134158d1
+            pipeline_id: ${resources.pipelines.pipeline_ecommerce_medallion_pipeline.id}
             full_refresh: false
         
         - task_key: test_transformations
