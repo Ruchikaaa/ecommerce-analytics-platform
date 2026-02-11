@@ -1,31 +1,34 @@
 resources:
   pipelines:
-    # Defining the central DLT Pipeline for the ecommerce analytics platform
-    ecommerce_medallion_pipeline:
+    # 1. Using the OLD Resource Key to maintain state continuity
+    pipeline_ecommerce_medallion_pipeline: 
       name: Ecommerce_Medallion_Pipeline
-      allow_duplicate_names: true
+      
+      # 2. Add this to bypass the "Name already used" error
+      allow_duplicate_names: true 
+      
       configuration:
-        # Using dynamic variables to define the landing zone path. 
-        # This allows the same code to point to /dev/ or /prod/ based on the environment.
+        # Keep your clean dynamic variables
         source_path: /Volumes/${var.catalog_name}/${var.schema_name}/landing_csvs/${bundle.target}/
-      
-      # Organizing the Medallion logic into modular notebooks for maintainability
+        spark.databricks.cloudFiles.schemaInference.sampleSize.numFiles: "10"
+
       libraries:
+        # Use your updated, modular paths
         - notebook:
-            path: ../src/01_Bronze_Ingestion/bronze_job.ipynb       # Row ingestion logic
+            path: ../src/01_Bronze_Ingestion/bronze_job.ipynb
         - notebook:
-            path: ../src/02_Silver_Transformation/silver_cleaning.ipynb # Cleaning & Validation logic
+            path: ../src/02_Silver_Transformation/silver_cleaning.ipynb
         - notebook:
-            path: ../src/03_Gold_Aggregations/01_dim_products.ipynb   # SCD Type 2 dimension logic
+            path: ../src/03_Gold_Aggregations/01_dim_products.ipynb
         - notebook:
-            path: ../src/03_Gold_Aggregations/02_fact_sales.ipynb     # Central fact table logic
+            path: ../src/03_Gold_Aggregations/02_fact_sales.ipynb
         - notebook:
-            path: ../src/03_Gold_Aggregations/04_business_kpis.ipynb   # Final aggregation logic
-      
-      # Target metadata locations (Dynamic variables for environment isolation)
+            path: ../src/03_Gold_Aggregations/04_business_kpis.ipynb
+
+      # 3. Dynamic target settings
       schema: ${var.schema_name}
       catalog: ${var.catalog_name}
       
-      # Performance & Management settings
-      photon: true      # Enables high-performance vectorized execution engine
-      serverless: true  # Offloads cluster management to Databricks for operational efficiency
+      # 4. Performance settings
+      photon: true
+      serverless: true
